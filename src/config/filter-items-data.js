@@ -15,6 +15,26 @@ export default [
             {
                 title: 'Гоночные',
                 code: 'gonochnie'
+            },
+            {
+                title: 'Фэтбайки',
+                code: 'fetbiki'
+            },
+            {
+                title: 'Двухподвесные',
+                code: 'dvupodvecnie'
+            },
+            {
+                title: 'Детские',
+                code: 'detskie'
+            },
+            {
+                title: 'Женские',
+                code: 'zhenskie'
+            },
+            {
+                title: 'Подростковые',
+                code: 'podrostkovie'
             }
         ]
     },
@@ -34,7 +54,24 @@ export default [
             {
                 title: 'SUPERIOR',
                 code: 'superior'
-            }
+            },
+            {
+                title: 'BERGAMONT',
+                code: 'bergamont'
+            },
+            {
+                title: 'SPECIALIZED',
+                code: 'specialized'
+            },
+            {
+                title: 'KONA',
+                code: 'kona'
+            },
+            {
+                title: 'PRIDE',
+                code: 'pride'
+            },
         ]
-    }
-]
+    },
+
+];

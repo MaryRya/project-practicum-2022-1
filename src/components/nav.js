@@ -22,14 +22,13 @@ export default class Nav {
 		`;
 
 		navData.forEach( item => {
-			const title = item.title;
-			const items = item.items;
+			const {title, items, accent: isAccent} = item;
 
 			let domElem = `
 				<div class="nav__item" data-nav-item>
 					<div class="nav__content">
 						<div class="nav__title button-1">
-							<span>${title}</span>
+							<span style="${isAccent ? 'color: red': ''}">${title}</span>
 							<svg width="10" height="20" class="nav__title-arrow">
 								<use href="#arrow"></use>
 							</svg>

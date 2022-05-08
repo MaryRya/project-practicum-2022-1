@@ -182,3 +182,73 @@
     }
   }
 }
+.catalog__SEO{
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+  margin-top: 60px;
+  color: rgba(31, 33, 29, 0.75);
+}
+
+.catalog__footer {
+  height: 143px;
+  background: #202020;
+  margin-top: 60px;
+}
+
+.catalog__legacy_2021 {
+  height: 18px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 18px;
+  text-align: center;
+  color: #909090;
+  padding-top: 24px;
+  margin-left: 12px;
+}
+
+.catalog__political {
+  height: 21px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-decoration-line: underline;
+  color: #FFCC07;
+  padding-top: 16px;
+  margin-left: 12px;
+  text-align: center;
+}
+
+.catalog__legacy {
+  height: 24px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 150%;
+  letter-spacing: 0.4px;
+  color: #909090;
+  padding-top: 16px;
+  text-align: center;
+}
+
+@media screen and (min-width: 1024px) {
+  .catalog__legacy {
+    text-align: right;
+    margin-top: -30px;
+    margin-right: 20px;
+  }
+
+  .catalog__legacy_2021 {
+    text-align: left;
+    padding-top: 55px;
+  }
+  .catalog__political {
+    margin-top: -20px;
+  }
+}
+
