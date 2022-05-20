@@ -1,4 +1,4 @@
-import navData from "@/config/nav-data";
+import navData from '../config/nav-data';
 
 export default class Nav {
 	constructor(el) {

@@ -210,76 +210,6 @@
 		"inBasket": false
 	},
 	{
-		"id": 31,
-		"image": "http://localhost:3000/upload/images/card-1.png",
-		"description": "BMX Forward ZigZag (2020)",
-		"price": 12000,
-		"inBasket": false
-	},
-	{
-		"id": 32,
-		"image": "http://localhost:3000/upload/images/card-2.png",
-		"description": "Горный велосипед Forward Quadro 27.5 3.0 (2019)",
-		"price": 46689,
-		"inBasket": true
-	},
-	{
-		"id": 33,
-		"image": "http://localhost:3000/upload/images/card-3.png",
-		"description": "Городской велосипед Bear Bike Амстердам (2019)",
-		"price": 3000,
-		"inBasket": false
-	},
-	{
-		"id": 34,
-		"image": "http://localhost:3000/upload/images/card-1.png",
-		"description": "BMX Forward ZigZag (2020)",
-		"price": 67000,
-		"inBasket": false
-	},
-	{
-		"id": 35,
-		"image": "http://localhost:3000/upload/images/card-4.png",
-		"description": "BMX Forward ZigZag (2020)",
-		"price": 80000,
-		"inBasket": false
-	},
-	{
-		"id": 36,
-		"image": "http://localhost:3000/upload/images/card-1.png",
-		"description": "BMX Forward ZigZag (2020)",
-		"price": 45000,
-		"inBasket": true
-	},
-	{
-		"id": 37,
-		"image": "http://localhost:3000/upload/images/card-2.png",
-		"description": "Горный велосипед Forward Quadro 27.5 3.0 (2019)",
-		"price": 23000,
-		"inBasket": true
-	},
-	{
-		"id": 38,
-		"image": "http://localhost:3000/upload/images/card-3.png",
-		"description": "Городской велосипед Bear Bike Амстердам (2019)",
-		"price": 98000,
-		"inBasket": false
-	},
-	{
-		"id": 39,
-		"image": "http://localhost:3000/upload/images/card-4.png",
-		"description": "BMX Forward ZigZag (2020)",
-		"price": 234000,
-		"inBasket": false
-	},
-	{
-		"id": 40,
-		"image": "http://localhost:3000/upload/images/card-1.png",
-		"description": "BMX Forward ZigZag (2020)",
-		"price": 12000,
-		"inBasket": true
-	},
-	{
 		"id": 41,
 		"image": "http://localhost:3000/upload/images/card-1.png",
 		"description": "BMX Forward ZigZag (2020)",
@@ -787,7 +717,7 @@
 		"id": 113,
 		"image": "http://localhost:3000/upload/images/card-3.png",
 		"description": "Городской велосипед Bear Bike Амстердам (2019)",
-		"price": 70000,
+		"price": 98000,
 		"inBasket": false
 	},
 	{

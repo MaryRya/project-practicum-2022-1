@@ -14,17 +14,16 @@ export default class Filter {
         this.filterItems = await getFilterItems()
         this.data = this.getCurrentFilter()
         await this.renderItems()
-
         this.initListeners()
     }
 
     async renderItems() {
         const filterItems = this.filterItems
+
         let html = ``
 
         filterItems.forEach(filterEl => {
             let items = ''
-
 
             if (filterEl.type === 'checkbox') {
                 filterEl.items.forEach(item => {
@@ -91,6 +90,7 @@ export default class Filter {
         elements.forEach(element => {
             const category = element.dataset.filterCode
             const items = element.querySelectorAll('[data-filter-item]')
+            
             const el = data.find(el => el.code === category)
 
             if (!el) {
@@ -107,8 +107,7 @@ export default class Filter {
                 }
                 return
             }
-
-
+            
             items.forEach(item => {
                 const code = item.name
 
@@ -169,7 +168,7 @@ export default class Filter {
         rangeInput.style.setProperty(`--left`, left)
         rangeInput.style.setProperty(`--right`, right)
     }
-
+    
     initListeners() {
         const accordions = []
 
@@ -194,7 +193,6 @@ export default class Filter {
             })
         })
 
-
         filterResetBtn.addEventListener('click', () => {
             const data = this.data
 
@@ -211,7 +209,9 @@ export default class Filter {
                     item.items = [min, max]
                 }
             })
+
             this.changeData(data)
+
             this.emitDataChange()
         })
 
@@ -311,6 +311,7 @@ export default class Filter {
 
         return el ? el.items.includes(code) : false
     }
+
     getCurrentFilter() {
         let params = new URL(window.location.href).searchParams
         params.delete('page')

@@ -5,6 +5,7 @@ import Select from "./select";
 import Cookie from "../utils/cookie";
 import {encodeURL} from "@/utils/url";
 import addBasketItem from "@/api/addBasketItem";
+import getBasketItems from "@/api/getBasketItems";
 
 export default class Catalog {
     constructor(el, filterEl, paginationEl) {
@@ -14,13 +15,15 @@ export default class Catalog {
         this.elements = {
             filter: null,
             pagination: null,
-            sort: null
+            sort: null,
+            search: null
         }
         this.meta = {
             page: null,
             filters: [],
             sort: null,
-            limit: 12
+            limit: 12,
+            q: null
         }
     }
 
@@ -29,15 +32,18 @@ export default class Catalog {
 
         try {
             this.meta.page = this.getCurrentPage()
+            this.meta.query = this.getCurrentQuery()
             this.meta.sort = Cookie.getCookie('catalog-sort') || 'alp'
 
-            this.elements.filter = await new Filter(this.filterEl, async (data) => {
-                this.meta.page = 1
-                this.meta.filters = data
-                await this.onMetaChange()
-            }, this.meta.filters)
-            await this.elements.filter.init()
-            this.meta.filters = this.elements.filter.getCurrentFilter()
+            if (this.filterEl) {
+                this.elements.filter = await new Filter(this.filterEl, async (data) => {
+                    this.meta.page = 1
+                    this.meta.filters = data
+                    await this.onMetaChange()
+                }, this.meta.filters)
+                await this.elements.filter.init()
+                this.meta.filters = this.elements.filter.getCurrentFilter()
+            }
 
             const [items, pageCount] = await getCatalogItems(this.meta)
             this.renderItems(items)
@@ -46,14 +52,32 @@ export default class Catalog {
             const sortEl = document.getElementById('sort')
             this.elements.sort = new Select({
                 el: sortEl,
-                onChange: (item) => {
-                    // TODO - доделать Select
+                onChange: async (item) => {
+                    this.meta.sort = item.value
+                    await this.onMetaChange()
                 },
                 cookieName: 'catalog-sort'
             })
 
-            // TODO - доделать Limit
+            const limitEl = document.getElementById('limit')
+            this.meta.limit = new Select({
+                el: limitEl,
+                onChange: async (item) => {
+                    this.meta.limit = item.name
+                    await this.onMetaChange()
+                },
+                cookieName: 'catalog-limit'
+            })
 
+            const searchForm = document.getElementById('search-form')
+
+            searchForm.addEventListener('submit', async (e) => {
+                e.preventDefault()
+
+                const query = e.path[0].querySelector('[data-search-input]').value
+
+                window.location.href = `http://localhost:3000/search.html?q=${query}`
+            })
 
             this.elements.pagination = new Pagination(this.paginationEl, async (page) => {
                 this.meta.page = +page
@@ -63,21 +87,27 @@ export default class Catalog {
 
             window.onpopstate = (async () => {
                 this.meta.page = this.getCurrentPage()
-                this.meta.filters = this.elements.filter.getCurrentFilter()
-
-                this.elements.filter.changeData(this.meta.filters)
+                this.meta.query = this.getCurrentQuery()
+                
+                if (this.elements.filter) {
+                    this.meta.filters = this.elements.filter.getCurrentFilter()
+                    this.elements.filter.changeData(this.meta.filters)
+                }
+                
                 this.elements.pagination.renderPaginationItems(this.meta.page, pageCount)
 
                 await this.onMetaChange(false)
             })
+
+            await this.updateBasketLength()
         } catch (e) {
-            console.log(e)
+
         } finally {
             this.setLoading(false)
         }
     }
 
-    async onMetaChange(isPushState = true) {
+    async onMetaChange(isPushState = true, query) {
         this.setLoading(true)
 
         try {
@@ -91,10 +121,16 @@ export default class Catalog {
                     code: 'page',
                     items: [this.meta.page]
                 }])
-                history.pushState({}, '', window.location.origin + encodeFilterData)
+
+                if(query) {
+                    history.pushState({}, '', window.location.origin + encodeFilterData + '&' + query)
+                } else {
+                    history.pushState({}, '', window.location.origin + encodeFilterData)
+                }
+
             }
         } catch (e) {
-            console.log(e)
+
         } finally {
             this.setLoading(false)
         }
@@ -111,6 +147,11 @@ export default class Catalog {
     getCurrentPage() {
         const params = new URL(window.location.href).searchParams
         return +params.get('page') || 1
+    }
+
+    getCurrentQuery() {
+        const params = new URL(window.location.href).searchParams
+        return params.get('q')
     }
 
     renderItems(items) {
@@ -132,7 +173,7 @@ export default class Catalog {
                         <use href="#hearth"></use>
                     </svg>
 
-                     <div class="product-card__basket ${item.inBasket ? 'product-card__basket_active' : ''}" data-basket-toggle="${item.inBasket ? '1' : ''}" data-item-id="${item.id}">
+                    <div class="product-card__basket ${item.inBasket ? 'product-card__basket_active' : ''}" data-basket-toggle="${item.inBasket ? '1' : ''}" data-item-id="${item.id}">
                         <svg class="svg-primary" width="20" height="20">
                             <use href="#basket"></use>
                         </svg>
@@ -159,11 +200,11 @@ export default class Catalog {
             </div>
         </div>`
     }
-
+    
     initBasketToggleListeners() {
-        this.el.addEventListener('click', async event => {
+        this.el.addEventListener('click', async event => {         
             if (
-                !event.target.hasAttribute('data-basket-toggle') &&
+                !event.target.hasAttribute('data-basket-toggle') && 
                 !event.target.closest('[data-basket-toggle]')
             ) {
                 return
@@ -178,12 +219,20 @@ export default class Catalog {
 
             const id = +element.dataset.itemId
             const inBasket = !!element.dataset.basketToggle
-
+            
             const result = await addBasketItem(id, inBasket ? 0 : 1)
-
+            
             if (result.ok) {
                 element.classList.toggle('product-card__basket_active')
+
+                await this.updateBasketLength()
             }
         })
+    }
+
+    async updateBasketLength() {
+        const basket = await getBasketItems()
+
+        document.getElementById('basket-length').innerText = basket.items.length
     }
 }

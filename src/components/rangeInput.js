@@ -18,7 +18,7 @@ export default function initRangeInput(el, callback) {
         leftInput.addEventListener('change', () => {
             callback(+leftInput.value, +rightInput.value)
         })
-
+        
         rightInput.addEventListener('change', () => {
             callback(+leftInput.value, +rightInput.value)
         })
